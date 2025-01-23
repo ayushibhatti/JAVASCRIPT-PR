@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VALIDATION</title>
+</head>
+<body>
+    <input type="text"   id = "username">
+    <input type="text" id = "password"> 
+     <p id="error"></p>
+     <p id="array2"></p>
+     <button onclick="submit()">SUBMIT</button>
+
+    <script>
+    
+    let name = "ayushi";
+    let password = "12345";
+
+    function submit() {
+        let username = document.getElementById("username").value;
+        let password =  document.getElementById("password").value;
+        console.log(username);
+        console.log(password);
+        if (username == "" || username !== "ayushi") {
+            document.getElementById("error").innerHTML = "enter your valid username";
+            document.getElementById("error") .style.color = "red";
+        }else{
+            document.getElementById("error").innerHTML = username; 
+        }
+        if (password == "" || password.length < 6){
+            documen.getElementById("array2").innerHTML =
+            "enter your valid password";
+            document.getElementById("array2").style.color = "red";
+        }else{
+            document.getElementById("error2").innerHTML = password;
+        }
+    }
+
+
+
+    </script>
+
+
+
+</body>
+</html>

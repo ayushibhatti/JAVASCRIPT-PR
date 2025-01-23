@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Unique Add to Cart Example</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h2>Products</h2>
+      <div class="row" id="product-list">
+        <!-- Product items will be populated here -->
+      </div>
+
+      <h2 class="mt-5">Cart</h2>
+      <div class="row">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody id="cart-items">
+            <!-- Cart items will be populated here -->
+          </tbody>
+        </table>
+        <h2 id="cart-total"></h2>
+      </div>
+    </div>
+
+    <script>
+      // Sample product data
+      const products = [
+        { id: 1, name: 'Product 1', price: 10, image: 'https://via.placeholder.com/100' },
+        { id: 2, name: 'Product 2', price: 20, image: 'https://via.placeholder.com/100' },
+        { id: 3, name: 'Product 3', price: 30, image: 'https://via.placeholder.com/100' }
+      ];
+
+      // Load products into the page
+      const loadProducts = () => {
+        const productList = document.getElementById('product-list');
+        let productHtml = '';
+        products.forEach(product => {
+          productHtml += `
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                <div class="card-body">
+                  <h5 class="card-title">${product.name}</h5>
+                  <p class="card-text">Price: $${product.price}</p>
+                  <button class="btn btn-primary" onclick="addToCart(${product.id})">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        productList.innerHTML = productHtml;
+      }
+
+      // Load cart items from localStorage
+      const loadCart = () => {
+        const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartTableBody = document.getElementById('cart-items');
+        let cartHtml = '';
+        let total = 0;
+
+        cartItems.forEach(item => {
+          total += item.price * item.qty;
+          cartHtml += `
+            <tr id="cart-item-${item.id}">
+              <td>${item.name}</td>
+              <td>${item.price}</td>
+              <td>
+                <input type="number" value="${item.qty}" onchange="updateQuantity(${item.id})" class="form-control w-25"/>
+              </td>
+              <td>${item.price * item.qty}</td>
+              <td>
+                <button class="btn btn-danger" onclick="removeFromCart(${item.id})">Remove</button>
+              </td>
+            </tr>
+          `;
+        });
+
+        cartTableBody.innerHTML = cartHtml;
+        document.getElementById('cart-total').innerText = `Total: $${total}`;
+      }
+
+      // Add product to cart
+      const addToCart = (id) => {
+        const product = products.find(p => p.id === id);
+        if (!product) return;
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const existingItem = cart.find(item => item.id === id);
+
+        if (existingItem) {
+          alert('This product is already in your cart.');
+          return;
+        }
+
+        cart.push({ ...product, qty: 1 });
+        localStorage.setItem('cart', JSON.stringify(cart));
+        loadCart();
+      }
+
+      // Update quantity in cart
+      const updateQuantity = (id) => {
+        const qty = document.querySelector(`#cart-item-${id} input`).value;
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart = cart.map(item => {
+          if (item.id === id) {
+            item.qty = parseInt(qty, 10);
+          }
+          return item;
+        });
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        loadCart();
+      }
+
+      // Remove product from cart
+      const removeFromCart = (id) => {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart = cart.filter(item => item.id !== id);
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        loadCart();
+      }
+
+      // Initial load
+      loadProducts();
+      loadCart();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

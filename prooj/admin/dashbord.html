@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>pro-D</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <h2>Menu</h2>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Tasks</a></li>
+        <li><a href="#">Resources</a></li>
+        <li><a href="#">Reports</a></li>
+        <li><a href="#">Settings</a></li>
+      </ul>
+    </nav>
+    <div class="main-content">
+      <header class="topbar">
+        <h1>Dashboard</h1>
+        <div class="user-info">
+          <p>Welcome, User</p>
+          <a href="../logout.html">Logout</a>
+        </div>
+      </header>
+
+
+
+      
+      <div class="content">
+
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+          Add
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Product Name</label>
+                  <input type="text" class="form-control" placeholder="Enter product name" id="pname" />
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Price</label>
+                  <input type="number" class="form-control" placeholder="price" id="price" />
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Description</label>
+                  <input type="text" class="form-control" placeholder="Description" id="desc" />
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Image</label>
+                  <input type="text" class="form-control" placeholder="img https://" id="img" />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                  Close
+                </button>
+                <button type="button" class="btn btn-primary" onclick="addProduct()">
+                  Add product
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <table class="table m-5">
+          <thead>
+            <th>Id</th>
+            <th>image</th>
+            <th>ProductName</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>View</th>
+            <th>Delete</th>
+            <th>isActive</th>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+</body>
+
+<script>
+  let products = JSON.parse(localStorage.getItem("products")) || [];
+  let tbody = document.getElementById("tbody");
+
+  //add product
+  function addProduct() {
+    let productName = document.getElementById("pname").value;
+    let price = document.getElementById("price").value;
+    let desc = document.getElementById("desc").value;
+    let img = document.getElementById("img").value;
+
+    let product = {
+      productName,
+      price,
+      desc,
+      img,
+      isActive: true,
+    };
+
+    products.push(product);
+
+    localStorage.setItem("products", JSON.stringify(products));
+    location.reload();
+  }
+
+  //load product
+  function loadProduct() {
+    products.map((val, index) => {
+      console.log(val);
+
+      let tr = document.createElement("tr");
+      tr.innerHTML = `
+        
+                <td>${index + 1}</td>
+                <td><img src='${val.img}' height=50 width=50/></td>
+                <td>${val.productName}</td>
+                <td>${val.price}</td>
+                <td>${val.desc}</td>
+                <td>  <button>view</button></td>
+                <td>  <button>delete</button></td>
+                <td>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                            <input type="checkbox" aria-label="Checkbox for following text input" ${val.isActive && "checked"
+        }>
+                            </div>
+                        </div>
+                       
+                        </div>    
+                </td>    
+        
+                `;
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  loadProduct();
+</script>
+
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>

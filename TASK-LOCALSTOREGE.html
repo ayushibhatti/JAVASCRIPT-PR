@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>local storage</title>
+</head>
+
+<body>
+    <input type="text" id="id" />
+    <input type="text" id="name" />
+    <input type="text" id="date" />
+    <input type="text" id="price" />
+    <input type="text" id="capacity" />
+    <input type="text" id="brand" />
+    <input type="text" id="category" />
+    <button onclick="submit()">Submit</button>
+
+
+    <script>
+        let products = [
+            {
+                id: "ac",
+                name: "Daikin 1.5 Ton 3 Star Inverter Split AC (Copper, PM 2.5 Filter, Triple Display, Dew Clean Technology, Coanda Airflow, 2023 Model, MTKL50U, White)",
+                date: 10 / 6 / 24,
+                price: 36990,
+                capacity: 1.5,
+                brand: "Daikin",
+                category: "electric",
+            },
+            {
+                id: "ac",
+                name: "Daikin 1.5 Ton 3 Star Inverter Split AC (Copper, PM 2.5 Filter, Triple Display, Dew Clean Technology, Coanda Airflow, 2023 Model, MTKL50U, White)",
+                date: 10 / 6 / 24,
+                price: 36990,
+                capacity: 1.5,
+                brand: "Daikin",
+                category: "electric",
+            },
+            {
+                id: "freeze",
+                name: "Daikin 1.5 Ton 3 Star Inverter Split AC (Copper, PM 2.5 Filter, Triple Display, Dew Clean Technology, Coanda Airflow, 2023 Model, MTKL50U, White)",
+                date: 13 / 6 / 24,
+                price: 16990,
+                capacity: 1.5,
+                brand: "Daikin",
+                category: "electric",
+            },
+            {
+                id: "freeze",
+                name: "Daikin 1.5 Ton 3 Star Inverter Split AC (Copper, PM 2.5 Filter, Triple Display, Dew Clean Technology, Coanda Airflow, 2023 Model, MTKL50U, White)",
+                date: 14 / 6 / 24,
+                price: 46990,
+                capacity: 1.5,
+                brand: "Daikin",
+                category: "electric",
+            },
+            {
+                id: "bottle",
+                name: "Daikin 1.5 Ton 3 Star Inverter Split AC (Copper, PM 2.5 Filter, Triple Display, Dew Clean Technology, Coanda Airflow, 2023 Model, MTKL50U, White)",
+                date: 15 / 6 / 24,
+                price: 66990,
+                capacity: 1.5,
+                brand: "Daikin",
+                category: "electric",
+            },
+            {
+                id: "books",
+                name: "Daikin 1.5 Ton 3 Star Inverter Split AC (Copper, PM 2.5 Filter, Triple Display, Dew Clean Technology, Coanda Airflow, 2023 Model, MTKL50U, White)",
+                date: 16 / 6 / 24,
+                price: 76990,
+                capacity: 1.5,
+                brand: "Daikin",
+                category: "electric",
+            },
+            {
+                id: "clothes",
+                name: "Hiren",
+                date: 17 / 6 / 24,
+                price: 96990,
+                capacity: 1.5,
+                brand: "Daikin",
+                category: "electric",
+            },
+            {
+                id: "pents",
+                name: "bansi",
+                date: 18 / 6 / 24,
+                price: 26990,
+                capacity: 1.5,
+                brand: "Daikin",
+                category: "electric",
+            },
+            {
+                id: "t-shirt",
+                name: "Hiren",
+                date: 19 / 6 / 24,
+                price: 26990,
+                capacity: 1.5,
+                brand: "Daikin",
+                category: "mobile",
+            },
+
+        ]
+        console.log(products);
+
+        function submit() {
+            let id = document.getElementById("id").value;
+            let name = document.getElementById("name").value;
+            let date = document.getElementById("date").value;
+            let price = document.getElementById("price").value;
+            let capacity = document.getElementById("capacity").value;
+            let brand = document.getElementById("brand").value;
+            let category = document.getElementById("category").value;
+
+
+            let product = {
+                id,
+                name,
+                price,
+            };
+
+            console.log(product);
+
+            products.push(product);
+            localStorage.setItem("data",JSON.stringify(product));
+
+            console.log(products);
+            localStorage.setItem("data",JSON.stringify(products));
+          
+            let res = JSON.parse(localStorage.getItem("data"));
+            console.log(res);
+        }
+
+
+
+
+
+    </script>
+</body>
+
+</html>

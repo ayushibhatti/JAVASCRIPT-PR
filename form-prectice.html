@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>crud</title>
+</head>
+<style>
+  * body {
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #111;
+    color: #fff;
+    overflow-x: hidden;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 250px;
+  }
+
+  .card {
+    width: 100%;
+    background-color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  }
+</style>
+
+<body>
+
+
+  <!-- modal -->  
+  <div class="container">
+    <div class="card">
+      <input type="text" id="fname" placeholder="fname" /><br><br>
+      <input type="text" id="lname" placeholder="lname" /><br><br>
+      <input type="text" id="email" placeholder="email" /><br><br>
+      <input type="text" id="pass" placeholder="pass" /><br><br>
+      <button onclick="register()">Register</button><br /><br />
+
+      <input type="text" id="firstname" placeholder="fname" /><br><br>
+      <input type="text" id="lastname" placeholder="lname" /><br><br>
+      <input type="text" id="mail" placeholder="email" /><br><br>
+      <input type="text" id="password" placeholder="pass" /><br><br>
+      <input type="hidden" id="index" /><br>
+      <button onclick="update()">Update</button>
+      <button onclick="register()">cancel</button>
+      <br /><br />
+    </div>
+  </div>
+
+
+  <!-- view user -->
+  <table border="1" cellpadding="10">
+    <thead>
+      <th bgcolor="0763B5">Id</th>
+      <th bgcolor="0763B5">FirstName</th>
+      
+      <th bgcolor="0763B5">LastName</th>
+      <th bgcolor="0763B5">Email</th>
+      <th bgcolor="0763B5">Password</th>
+      <th bgcolor="0763B5">Remove</th>
+    </thead>
+    <tbody id="tbody" bgcolor="077P6F">
+    </tbody>
+  </table>
+
+
+
+
+
+   <script>
+    let users = JSON.parse(localStorage.getItem("users"));
+    let tbody = document.getElementById("tbody");
+    console.log(users);
+    //register user
+    function register() {
+      let firstName = document.getElementById("fname").value;
+      let lastName = document.getElementById("lname").value;
+      let email = document.getElementById("email").value;
+      let password = document.getElementById("pass").value;
+
+      let user = {
+        firstName,
+        lastName,
+        email,
+        password,
+      };
+
+      users.push(user);
+
+      localStorage.setItem("users", JSON.stringify(users));
+
+      console.log(users);
+      location.reload();
+    }
+
+    //load users
+
+    function loadUser() {
+      users.map((val, index) => {
+        let tr = document.createElement("tr");
+        tr.innerHTML = `
+           <td>${index + 1}</td>
+          <td>${val.firstName}</td>
+          <td>${val.lastName}</td>
+          <td>${val.email}</td>
+          <td>${val.password}</td>
+          <td><button onclick="deleteUser(${index})">delete</button></td>
+             <td><button onclick="viewUser(${index})">View</button></td>
+          `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    loadUser();
+
+    //delete user
+    function deleteUser(index) {
+      console.log(index);
+      users.splice(index, 1);
+      console.log(users);
+      localStorage.setItem("users", JSON.stringify(users));
+      location.reload();
+    }
+    //view user
+    function viewUser(index) {
+      let result = users[index];
+
+      console.log(result);
+      document.getElementById("firstname").value = result.firstName;
+      document.getElementById("lastname").value = result.lastName;
+      document.getElementById("email").value = result.email;
+      document.getElementById("password").value = result.password;
+      document.getElementById("index").value = index;
+    }
+    //update user
+    function update() {
+      console.log("update");
+      let firstName = document.getElementById("firstname").value;
+      let lastName = document.getElementById("lastname").value;
+      let email = document.getElementById("email").value;
+      let password = document.getElementById("password").value;
+
+      let index = parseInt(document.getElementById("index").value);
+
+      console.log(index);
+
+      let updatedUser = {
+        firstName,
+        lastName,
+        email,
+        password,
+      };
+
+      users.splice(1, updatedUser);
+
+      console.log(users);
+
+      localStorage.setItem("users", JSON.stringify(users));
+
+      location.reload();
+    }
+
+  </script>
+
+
+
+</body>
+
+</html>
